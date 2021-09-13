@@ -7,6 +7,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import './App.css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {AddTodoAction,deleteTodoAction,changeStatusAction} from './actionCreators';
 
 
 const TodoList = ({todos,deleteTodo,changeStatus}) => (
@@ -34,4 +37,17 @@ const TodoList = ({todos,deleteTodo,changeStatus}) => (
     </List>
 );
 
-export default TodoList;
+function mapStateToProps(state){
+    return {
+        todos: state,
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+      changeStatus: bindActionCreators(changeStatusAction,dispatch),
+      deleteTodo: bindActionCreators(deleteTodoAction,dispatch),
+    }
+ }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
