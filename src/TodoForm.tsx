@@ -1,18 +1,33 @@
 import TextField from '@material-ui/core/TextField';
 import React , { useState } from 'react';
 import {AddTodoAction,deleteTodoAction,changeStatusAction} from './actionCreators';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import {TodoItem, ActionType, ActionValue, Action} from './interfaces';
 
-const ToDoForm = ({saveTodo,addTodo}) => {
+interface TodoFormProps {
+   addTodo: (task:TodoItem) => Action;
+}
+
+const ToDoForm = ({addTodo}: TodoFormProps) => {
   
     const [value,setValue] = useState('')
     return (
     <form onSubmit={
         (e) => {
             e.preventDefault();
-            addTodo(value);
+            const trimmedText = value.trim();
+            
+            const taskItem = {
+                task: trimmedText,
+                isDone: false,
+            };
+
+            if(trimmedText.length > 0)
+            {
+            addTodo(taskItem);
             setValue('');
+            }
         }
     }>
       <TextField 
@@ -29,7 +44,7 @@ const ToDoForm = ({saveTodo,addTodo}) => {
   
   };
 
-  function mapDispatchToProps(dispatch){
+  function mapDispatchToProps(dispatch: Dispatch){
      return {
        addTodo: bindActionCreators(AddTodoAction,dispatch),
      }

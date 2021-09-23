@@ -8,11 +8,17 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import './App.css';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import {AddTodoAction,deleteTodoAction,changeStatusAction} from './actionCreators';
+import {TodoItem, ActionType, ActionValue, Action} from './interfaces';
 
+interface TodoListProps{
+    todos: TodoItem[];
+    deleteTodo: (index:number) => Action ;
+    changeStatus:(index:number) => Action;
+ }
 
-const TodoList = ({todos,deleteTodo,changeStatus}) => (
+const TodoList = ( {todos,deleteTodo,changeStatus}:TodoListProps) => (
     <List className = "List">
         {todos.map((todo,index) => (
             <ListItem key={index.toString()} dense button >
@@ -37,13 +43,13 @@ const TodoList = ({todos,deleteTodo,changeStatus}) => (
     </List>
 );
 
-function mapStateToProps(state){
+function mapStateToProps(state:TodoItem[]){
     return {
         todos: state,
     };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch:Dispatch){
     return {
       changeStatus: bindActionCreators(changeStatusAction,dispatch),
       deleteTodo: bindActionCreators(deleteTodoAction,dispatch),

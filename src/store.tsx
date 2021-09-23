@@ -1,9 +1,12 @@
 import {createStore} from 'redux';
+import {TodoItem, ActionType, ActionValue, Action} from './interfaces';
 
-function todoReducer(state = [], action){
+
+
+function todoReducer(state: TodoItem[] = [], action:Action):TodoItem[]{
     switch(action.type){
-        case 'todos/add':{            
-            return [...state,action.value];
+        case 'todos/add':{      
+            return [...state,action.value as TodoItem];
         }
         case 'todos/changeStatus':{
           return state.map( (val,i) => {
@@ -23,7 +26,7 @@ function todoReducer(state = [], action){
     }
   }
   
-  const initialState = [];
+  const initialState:TodoItem[] = [];
   const store = createStore(todoReducer,initialState);
 
   export default store;

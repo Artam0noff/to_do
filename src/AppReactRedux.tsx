@@ -5,7 +5,7 @@ import TodoList from './TodoList';
 import {connect} from 'react-redux';
 
 
-const RRApp = ({todos}) => {
+const RRApp = ({}) => {
 
 
     return (<div className='App'>
